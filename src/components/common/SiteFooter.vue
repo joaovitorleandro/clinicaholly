@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onUnmounted, ref } from 'vue'
 import BrandLogo from '../ui/BrandLogo.vue'
+import ArrowIcon from '../ui/ArrowIcon.vue'
 import HollyStar from '../ui/HollyStar.vue'
 import { clinic } from '../../data/clinic'
 import { setScrollLocked } from '../../composables/useLenis'
@@ -20,9 +21,9 @@ onUnmounted(() => { if (privacy.value?.open) setScrollLocked(false) })
         <BrandLogo />
         <p class="footer-tagline">Estética integrada para revelar<br>a sua melhor versão.</p>
         <nav aria-label="Navegação do rodapé"><a href="#experiencia">A Holly</a><a href="#especialidades">Especialidades</a><a href="#resultados">Resultados</a></nav>
-        <nav aria-label="Contato e informações"><a :href="clinic.instagram" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a><a :href="clinic.whatsapp" target="_blank" rel="noopener noreferrer">Contato <span aria-hidden="true">↗</span></a><button type="button" @click="openPrivacy">Privacidade <span aria-hidden="true">↗</span></button></nav>
+        <nav aria-label="Contato e informações"><a :href="clinic.instagram" target="_blank" rel="noopener noreferrer">Instagram <ArrowIcon /></a><a :href="clinic.whatsapp" target="_blank" rel="noopener noreferrer">Contato <ArrowIcon /></a><button type="button" @click="openPrivacy">Privacidade <ArrowIcon /></button></nav>
       </div>
-      <div class="footer-bottom"><small>© {{ new Date().getFullYear() }} Clínica Holly. Todos os direitos reservados.</small><p>Arujá, SP <HollyStar /> Estética integrada</p><a href="#inicio" aria-label="Voltar ao início">Voltar ao início <span aria-hidden="true">↑</span></a></div>
+      <div class="footer-bottom"><small>© {{ new Date().getFullYear() }} Clínica Holly. Todos os direitos reservados.</small><p>Arujá, SP <HollyStar /> Estética integrada</p><a href="#inicio" aria-label="Voltar ao início">Voltar ao início <ArrowIcon direction="up" class="footer-back-arrow" /></a></div>
     </div>
   </footer>
   <dialog ref="privacy" class="privacy-dialog" aria-labelledby="privacy-title" @close="afterClose" @click="backdropClick">
@@ -32,7 +33,7 @@ onUnmounted(() => { if (privacy.value?.open) setScrollLocked(false) })
       <div class="privacy-item"><span>01</span><div><h3>Avaliação online</h3><p>As fotos para análise são solicitadas com orientações da equipe e avaliadas pelo profissional responsável.</p></div></div>
       <div class="privacy-item"><span>02</span><div><h3>Planejamento e contrato</h3><p>Após aprovação, o atendimento segue com os termos e orientações adequados ao seu plano.</p></div></div>
       <div class="privacy-item"><span>03</span><div><h3>Agendamento</h3><p>A data e o período são organizados junto a você. Consulte a equipe sobre as condições de sinal e remarcação.</p></div></div>
-      <a class="text-link" :href="clinic.whatsapp" target="_blank" rel="noopener noreferrer">Falar com a equipe <span aria-hidden="true">↗</span></a>
+      <a class="text-link" :href="clinic.whatsapp" target="_blank" rel="noopener noreferrer">Falar com a equipe <ArrowIcon /></a>
     </div>
   </dialog>
 </template>
@@ -46,7 +47,7 @@ nav a,nav button{display:inline-flex;align-items:center;justify-content:space-be
 nav a:hover,nav button:hover{color:var(--champagne)}
 .footer-bottom{display:flex;align-items:center;justify-content:space-between;gap:24px;border-top:1px solid #27241c;padding-top:26px;color:#a59d90;font-size:8px}
 .footer-bottom small{font-size:8px}.footer-bottom p{display:flex;align-items:center;gap:14px;font-size:7px;letter-spacing:.12em;text-transform:uppercase}.footer-bottom svg{width:12px;height:12px;color:#b69865}
-.footer-bottom>a{display:flex;align-items:center;gap:16px;font-size:8px;letter-spacing:.08em}.footer-bottom>a span{font-size:17px;transition:transform .3s}.footer-bottom>a:hover span{transform:translateY(-4px)}
+.footer-bottom>a{display:flex;align-items:center;gap:16px;font-size:8px;letter-spacing:.08em}.footer-back-arrow{width:17px;height:17px;transition:transform .3s}.footer-bottom>a:hover .footer-back-arrow{transform:translateY(-4px)}
 .privacy-dialog{width:720px;padding:0;border:1px solid #5f5038;background:var(--ivory);color:var(--ink)}
 .privacy-content{padding:clamp(26px,5vw,55px)}
 .privacy-top{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:26px;color:var(--bronze)}

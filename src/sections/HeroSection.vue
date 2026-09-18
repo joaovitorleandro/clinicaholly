@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import { gsap, ScrollTrigger } from '../lib/motion'
 import MagneticButton from '../components/motion/MagneticButton.vue'
+import ArrowIcon from '../components/ui/ArrowIcon.vue'
 import HollyStar from '../components/ui/HollyStar.vue'
 import { clinic } from '../data/clinic'
 import type { HollySceneController } from '../three/HollyScene'
@@ -79,12 +80,12 @@ onUnmounted(() => { disposed = true; cancelAnimationFrame(frame); ctx?.revert();
         <p class="hero-description">Tratamentos pensados para valorizar o que existe de mais autêntico em você — com planejamento, técnica e naturalidade.</p>
         <div class="hero-actions">
           <MagneticButton :href="clinic.whatsapp">Quero minha avaliação</MagneticButton>
-          <a class="hero-text-link" href="#especialidades">Conheça os tratamentos <span aria-hidden="true">↗</span></a>
+          <a class="hero-text-link" href="#especialidades">Conheça os tratamentos <ArrowIcon /></a>
         </div>
       </div>
       <div class="hero-marginalia" aria-hidden="true"><HollyStar /><span>Naturalidade.<br>Precisão.<br>Individualidade.</span></div>
       <div class="hero-bottom container">
-        <a class="scroll-invitation" href="#experiencia"><span class="scroll-line" aria-hidden="true"></span><span>Uma experiência Holly</span><span aria-hidden="true">↓</span></a>
+        <a class="scroll-invitation" href="#experiencia"><span class="scroll-line" aria-hidden="true"></span><span>Uma experiência Holly</span><ArrowIcon direction="down" class="scroll-arrow" /></a>
         <p>Atendimento em SP e RJ <span>·</span> Desde 2021</p>
         <span class="hero-index" aria-hidden="true">01 <span>/</span> 08</span>
       </div>
@@ -110,7 +111,7 @@ onUnmounted(() => { disposed = true; cancelAnimationFrame(frame); ctx?.revert();
 .hero-description{max-width:338px;font-size:12px;line-height:1.95;color:#d7d2c8;margin-top:27px;font-weight:400}
 .hero-actions{display:flex;align-items:center;gap:30px;margin-top:30px;pointer-events:auto}
 .hero-text-link{display:inline-flex;gap:16px;align-items:center;font-size:8px;letter-spacing:.13em;line-height:1.8;text-transform:uppercase;padding:10px 0;border-bottom:1px solid #7e7769;transition:border-color .3s,color .3s}
-.hero-text-link span{font-size:17px;transition:transform .3s}.hero-text-link:hover{color:#e0c795;border-color:#e0c795}.hero-text-link:hover span{transform:translate(3px,-3px)}
+.hero-text-link .arrow-icon{width:17px;height:17px;transition:transform .3s}.hero-text-link:hover{color:#e0c795;border-color:#e0c795}.hero-text-link:hover .arrow-icon{transform:translate(3px,-3px)}
 .hero-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.76}
 .hero-orbit-fallback{position:absolute;width:74vw;height:110svh;right:-9vw;top:-4svh;z-index:-1;color:#b89555;opacity:.55;pointer-events:none;transition:opacity .6s}
 .hero-orbit-fallback.webgl-ready{opacity:.13}
@@ -121,7 +122,7 @@ onUnmounted(() => { disposed = true; cancelAnimationFrame(frame); ctx?.revert();
 .hero-bottom p{font-size:8px;color:#bab2a2;letter-spacing:.15em;text-transform:uppercase}
 .hero-bottom p span{margin-inline:14px;color:#c4a77c}
 .scroll-invitation{display:flex;align-items:center;gap:12px;font-size:8px;text-transform:uppercase;letter-spacing:.16em;color:#d9cfbb;min-height:32px}
-.scroll-line{width:30px;height:1px;background:#8f7b57}.scroll-invitation>span:last-child{font-size:16px;transition:transform .3s}.scroll-invitation:hover>span:last-child{transform:translateY(4px)}
+.scroll-line{width:30px;height:1px;background:#8f7b57}.scroll-arrow{width:16px;height:16px;transition:transform .3s}.scroll-invitation:hover .scroll-arrow{transform:translateY(4px)}
 .hero-index{font-size:9px;letter-spacing:.12em;color:#d6bf91}.hero-index span{margin-inline:10px;color:#797165}
 .hero-outro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;opacity:0;pointer-events:none;z-index:2;gap:32px}
 .hero-outro>.eyebrow{color:#d1b378}.hero-outro>p:not(.eyebrow){font-family:var(--display);font-size:clamp(70px,8vw,140px);line-height:1}.hero-outro em{color:#d5b980}.hero-transition-star{width:40px;height:40px;color:#d5b980}

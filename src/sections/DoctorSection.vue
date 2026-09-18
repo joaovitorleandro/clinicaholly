@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { clinic } from '../data/clinic'
 import ParallaxImage from '../components/motion/ParallaxImage.vue'
+import ArrowIcon from '../components/ui/ArrowIcon.vue'
 import RevealText from '../components/motion/RevealText.vue'
 import RevealBlock from '../components/motion/RevealBlock.vue'
 import HollyStar from '../components/ui/HollyStar.vue'
@@ -19,7 +20,7 @@ import HollyStar from '../components/ui/HollyStar.vue'
         <RevealText id="doctor-title" as="h2">“A melhor estética<br>é aquela que parece<br><em>ser sua desde<br>sempre.</em>”</RevealText>
         <RevealBlock class="doctor-biography">
           <p>Cirurgião-dentista, pós-graduado em Endodontia, com atuação em estética dentária e harmonização facial. Dr. Guilherme Lucena fundou a Holly em 2021 com a visão de unir atendimento próximo, precisão técnica e resultados elegantes.</p>
-          <a class="text-link" :href="clinic.doctorInstagram" target="_blank" rel="noopener noreferrer">Acompanhe o Dr. Guilherme <span aria-hidden="true">↗</span></a>
+          <a class="text-link" :href="clinic.doctorInstagram" target="_blank" rel="noopener noreferrer">Acompanhe o Dr. Guilherme <ArrowIcon /></a>
         </RevealBlock>
       </div>
       <svg class="doctor-arc" viewBox="0 0 900 900" fill="none" aria-hidden="true"><path d="M85 880C-150 365 232-53 583 67c196 67 339 415 181 777" /><path d="M111 888C-111 379 251-14 576 95c179 60 310 388 169 744" /></svg>

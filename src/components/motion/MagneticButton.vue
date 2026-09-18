@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
 import { gsap } from '../../lib/motion'
+import ArrowIcon from '../ui/ArrowIcon.vue'
 
 withDefaults(defineProps<{ href: string; variant?: 'gold' | 'outline' | 'light'; external?: boolean }>(), { variant: 'gold', external: true })
 const element = ref<HTMLAnchorElement>()
@@ -27,7 +28,7 @@ onUnmounted(() => ctx?.revert())
 
 <template>
   <a ref="element" class="magnetic-button" :class="`button-${variant}`" :href="href" :target="external ? '_blank' : undefined" :rel="external ? 'noopener noreferrer' : undefined">
-    <span class="button-label"><slot /></span><span class="button-arrow" aria-hidden="true">↗</span>
+    <span class="button-label"><slot /></span><ArrowIcon class="button-arrow" />
   </a>
 </template>
 
@@ -40,7 +41,7 @@ onUnmounted(() => ctx?.revert())
 .button-light{color:var(--ink);background:var(--ivory)}
 .button-light::before{background:#cfb27d}
 .button-outline:hover{color:var(--ink);border-color:var(--ivory)}
-.button-arrow{font-size:19px;line-height:1;transition:transform .3s}
+.button-arrow{width:19px;height:19px;transition:transform .3s}
 .magnetic-button:hover .button-arrow{transform:translate(3px,-3px)}
 @media(max-width:767px){.magnetic-button{min-height:54px;padding:16px 23px;font-size:9px;gap:28px}}
 </style>

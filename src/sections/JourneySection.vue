@@ -2,6 +2,7 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { gsap, ScrollTrigger } from '../lib/motion'
 import { clinic } from '../data/clinic'
+import ArrowIcon from '../components/ui/ArrowIcon.vue'
 import RevealText from '../components/motion/RevealText.vue'
 import HollyStar from '../components/ui/HollyStar.vue'
 
@@ -35,7 +36,7 @@ onBeforeUnmount(() => { media?.revert(); context?.revert() })
       <div class="journey-intro">
         <div class="section-label"><HollyStar /><p class="eyebrow">Seu caminho até a Holly</p></div>
         <RevealText id="journey-title">Leve, claro e<br><em>sem pressa.</em></RevealText>
-        <a class="text-link" :href="clinic.whatsapp" target="_blank" rel="noopener noreferrer">Quero minha avaliação <span aria-hidden="true">↗</span></a>
+        <a class="text-link" :href="clinic.whatsapp" target="_blank" rel="noopener noreferrer">Quero minha avaliação <ArrowIcon /></a>
         <div class="journey-counter" aria-hidden="true"><span>0{{ active + 1 }}</span><span class="counter-line"></span><span>03</span></div>
       </div>
       <div class="journey-steps-wrap">

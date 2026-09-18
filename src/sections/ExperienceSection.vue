@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ParallaxImage from '../components/motion/ParallaxImage.vue'
+import ArrowIcon from '../components/ui/ArrowIcon.vue'
 import RevealText from '../components/motion/RevealText.vue'
 import RevealBlock from '../components/motion/RevealBlock.vue'
 import HollyStar from '../components/ui/HollyStar.vue'
@@ -17,7 +18,7 @@ import HollyStar from '../components/ui/HollyStar.vue'
         <RevealText id="experience-title">Estética que<br>começa com<br><em>escuta.</em></RevealText>
         <RevealBlock class="experience-body">
           <p>Na Holly, cada plano é individual. Entendemos sua história, seus desejos e a harmonia do seu rosto antes de desenhar qualquer transformação.</p>
-          <a class="text-link" href="#clinica">Conheça a clínica <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#clinica">Conheça a clínica <ArrowIcon /></a>
         </RevealBlock>
       </div>
       <RevealBlock class="experience-stats">

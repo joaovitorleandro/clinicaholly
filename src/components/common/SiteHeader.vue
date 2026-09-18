@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
 import BrandLogo from '../ui/BrandLogo.vue'
+import ArrowIcon from '../ui/ArrowIcon.vue'
 import HollyStar from '../ui/HollyStar.vue'
 import { clinic, navigation } from '../../data/clinic'
 import { setScrollLocked } from '../../composables/useLenis'
@@ -89,17 +90,17 @@ onUnmounted(() => {
       <nav class="desktop-nav" aria-label="Navegação principal">
         <a v-for="item in navigation" :key="item.id" :href="`#${item.id}`" :aria-current="active === item.id ? 'location' : undefined">{{ item.label }}</a>
       </nav>
-      <a class="header-cta" :href="clinic.whatsapp" target="_blank" rel="noopener noreferrer">Agendar avaliação <span aria-hidden="true">↗</span></a>
+      <a class="header-cta" :href="clinic.whatsapp" target="_blank" rel="noopener noreferrer">Agendar avaliação <ArrowIcon /></a>
       <button ref="toggleButton" class="menu-toggle" type="button" aria-controls="mobile-navigation" :aria-expanded="menuOpen" aria-label="Abrir menu de navegação" @click="openMenu($event)"><span>Menu</span><span class="menu-bars" aria-hidden="true"><i></i><i></i></span></button>
     </div>
   </header>
   <dialog id="mobile-navigation" ref="dialog" class="mobile-menu" aria-label="Navegação principal" @keydown="onKeydown" @close="afterClose">
     <div class="mobile-menu-head"><BrandLogo @click="closeMenu" /><button class="menu-close" type="button" autofocus aria-label="Fechar menu" @click="closeMenu">Fechar <span aria-hidden="true">×</span></button></div>
     <nav aria-label="Navegação mobile">
-      <a v-for="(item, index) in navigation" :key="item.id" class="menu-item" :href="`#${item.id}`" @click="navigateTo(item.id)"><span class="eyebrow">0{{ index + 1 }}</span>{{ item.label }}<span class="menu-link-arrow" aria-hidden="true">↗</span></a>
-      <a class="menu-item menu-contact" :href="clinic.whatsapp" target="_blank" rel="noopener noreferrer" @click="closeMenu"><span class="eyebrow">06</span>Seu momento Holly<span class="menu-link-arrow" aria-hidden="true">↗</span></a>
+      <a v-for="(item, index) in navigation" :key="item.id" class="menu-item" :href="`#${item.id}`" @click="navigateTo(item.id)"><span class="eyebrow">0{{ index + 1 }}</span>{{ item.label }}<ArrowIcon class="menu-link-arrow" /></a>
+      <a class="menu-item menu-contact" :href="clinic.whatsapp" target="_blank" rel="noopener noreferrer" @click="closeMenu"><span class="eyebrow">06</span>Seu momento Holly<ArrowIcon class="menu-link-arrow" /></a>
     </nav>
-    <div class="mobile-menu-foot"><p class="eyebrow">Estética integrada<br>Arujá, São Paulo</p><HollyStar /><a :href="clinic.instagram" target="_blank" rel="noopener noreferrer" class="eyebrow">Instagram ↗</a></div>
+    <div class="mobile-menu-foot"><p class="eyebrow">Estética integrada<br>Arujá, São Paulo</p><HollyStar /><a :href="clinic.instagram" target="_blank" rel="noopener noreferrer" class="eyebrow mobile-menu-instagram">Instagram <ArrowIcon /></a></div>
   </dialog>
 </template>
 
@@ -115,7 +116,7 @@ onUnmounted(() => {
 .desktop-nav a:hover::after,.desktop-nav a[aria-current]::after{transform:scaleX(1);transform-origin:left}
 .header-cta{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;min-height:43px;padding:12px 19px;border:1px solid rgb(207 178 125 / 55%);color:#dfc998;font-size:9px;letter-spacing:.105em;text-transform:uppercase;transition:background .3s,color .3s}
 .header-cta:hover{background:#cfb27d;color:var(--ink)}
-.header-cta span{font-size:16px;transition:transform .3s}.header-cta:hover span{transform:translate(3px,-2px)}
+.header-cta .arrow-icon{width:16px;height:16px;transition:transform .3s}.header-cta:hover .arrow-icon{transform:translate(3px,-2px)}
 .menu-toggle{display:none;align-items:center;gap:14px;border:0;background:none;padding:12px 0;font-size:10px;letter-spacing:.08em}
 .menu-bars{display:flex;flex-direction:column;gap:6px;width:25px}.menu-bars i{height:1px;width:25px;background:var(--ivory)}.menu-bars i:last-child{width:17px;margin-left:auto}
 .mobile-menu{position:fixed;inset:0;width:100%;height:100dvh;max-width:100%;max-height:100%;margin:0;padding:24px var(--gutter) 32px;border:0;background:var(--ink);color:var(--ivory)}
@@ -125,9 +126,9 @@ onUnmounted(() => {
 .mobile-menu nav{margin-block:auto;padding-block:36px}
 .menu-item{display:flex;align-items:center;gap:24px;font-family:var(--display);font-size:clamp(31px,7.5vw,62px);line-height:1.35;padding:12px 0;border-bottom:1px solid #27251e;transition:color .3s}
 .menu-item .eyebrow{color:#bf9b61;font-family:var(--sans);font-size:9px}
-.menu-link-arrow{margin-left:auto;font-family:var(--sans);font-size:18px;color:#baa075}
+.menu-link-arrow{width:18px;height:18px;margin-left:auto;color:#baa075}
 .menu-item:hover,.menu-contact{color:#cfb27d}
-.mobile-menu-foot{display:flex;align-items:center;justify-content:space-between;gap:24px;color:var(--taupe)}.mobile-menu-foot svg{width:25px;color:#c9aa75}
+.mobile-menu-foot{display:flex;align-items:center;justify-content:space-between;gap:24px;color:var(--taupe)}.mobile-menu-foot>svg:not(.arrow-icon){width:25px;color:#c9aa75}.mobile-menu-instagram{display:inline-flex;align-items:center;gap:7px}.mobile-menu-instagram .arrow-icon{width:12px;height:12px}
 @media(max-width:1100px){.desktop-nav{display:none}.header-cta{margin-left:auto}.menu-toggle{display:flex}.header-inner{height:88px}}
 @media(max-width:600px){.header-inner{height:79px;gap:12px}.is-scrolled .header-inner{height:69px}.header-cta{display:none}.menu-toggle{font-size:9px}.menu-item{gap:18px}.mobile-menu nav{padding-block:20px}}
 @media(max-height:650px){.menu-item{padding:7px 0;font-size:31px}.mobile-menu-foot{display:none}}

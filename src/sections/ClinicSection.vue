@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { clinic } from '../data/clinic'
 import ParallaxImage from '../components/motion/ParallaxImage.vue'
+import ArrowIcon from '../components/ui/ArrowIcon.vue'
 import RevealText from '../components/motion/RevealText.vue'
 import RevealBlock from '../components/motion/RevealBlock.vue'
 import HollyStar from '../components/ui/HollyStar.vue'
@@ -13,7 +14,7 @@ import TiltCard from '../components/motion/TiltCard.vue'
       <div class="clinic-label section-label"><HollyStar /><p class="eyebrow">Clínica Holly • Arujá, SP</p><span class="section-number">07 / 08</span></div>
       <div class="clinic-heading">
         <RevealText id="clinic-title">Um espaço pensado<br>para o seu <em>momento.</em></RevealText>
-        <RevealBlock class="clinic-address"><address>Estrada de Santa Isabel, 965 — Sala 27<br>Bairro Caputerá, Arujá — SP</address><a class="text-link" :href="clinic.maps" target="_blank" rel="noopener noreferrer">Abrir localização <span aria-hidden="true">↗</span></a></RevealBlock>
+        <RevealBlock class="clinic-address"><address>Estrada de Santa Isabel, 965 — Sala 27<br>Bairro Caputerá, Arujá — SP</address><a class="text-link" :href="clinic.maps" target="_blank" rel="noopener noreferrer">Abrir localização <ArrowIcon /></a></RevealBlock>
       </div>
       <div class="clinic-gallery">
         <RevealBlock class="clinic-main-photo">
