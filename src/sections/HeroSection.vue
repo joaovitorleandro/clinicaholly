@@ -19,7 +19,7 @@ onMounted(() => {
   ctx = gsap.context(() => {
     const media = gsap.matchMedia()
     media.add({ desktop: '(min-width: 768px)', mobile: '(max-width: 767px)', reduce: '(prefers-reduced-motion: reduce)' }, (context) => {
-      if (context.conditions?.reduce) return
+      if (context.conditions?.reduce || !context.conditions?.desktop) return
       const desktop = context.conditions?.desktop
       gsap.from('.hero-line-inner', { yPercent: 110, duration: 1.2, stagger: .12, ease: 'power4.out', delay: .1 })
       gsap.from('.hero-intro, .hero-description, .hero-actions, .hero-bottom', { y: 16, opacity: 0, duration: .9, stagger: .09, ease: 'power3.out', delay: .35 })
@@ -39,8 +39,8 @@ onMounted(() => {
       timeline.to('.hero-transition-star', { rotate: 90, y: desktop ? 60 : 20, duration: .3, ease: 'none' }, .7)
     })
   }, section.value)
-  // Decorative WebGL is deferred until the first HTML and photo frame can paint.
-  frame = requestAnimationFrame(() => {
+  // Decorative WebGL is desktop-only; the mobile hero intentionally stays clean and static.
+  if (window.matchMedia('(min-width: 768px)').matches) frame = requestAnimationFrame(() => {
     void import('../three/HollyScene').then(({ createHollyScene }) => {
       if (disposed || !canvas.value) return
       try {
@@ -129,7 +129,7 @@ onUnmounted(() => { disposed = true; cancelAnimationFrame(frame); ctx?.revert();
 @media(min-width:1600px){.hero-description{font-size:14px;max-width:370px}.hero-actions{margin-top:36px}.hero-content{padding-top:23svh}.hero-intro{margin-bottom:44px}}
 @media(max-width:1100px){.hero-content{padding-top:25svh}.hero-title{font-size:11vw}.hero-line-signature{padding-left:3.5vw}.hero-marginalia{bottom:20%}.hero-description{max-width:305px;font-size:11px}.hero-actions{gap:20px}.hero-bottom p{font-size:7px}}
 @media(max-width:767px){
-  .hero-scroll{height:180svh}.hero-sticky{min-height:760px;height:100svh}
+  .hero-scroll{height:100svh}.hero-sticky{position:relative;min-height:760px;height:100svh}
   .hero-photo-wrap{bottom:23%;left:0;top:0;right:-20%}.hero-photo{object-position:64% 23%;opacity:.9}
   .hero-shade{background:linear-gradient(0deg,var(--ink) 0%,rgba(8,8,7,.95) 24%,rgba(8,8,7,.55) 45%,rgba(8,8,7,.02) 77%,rgba(8,8,7,.48)),linear-gradient(90deg,rgba(8,8,7,.35),transparent 70%)}
   .hero-content{padding-top:clamp(268px,39svh,390px)}
@@ -138,8 +138,7 @@ onUnmounted(() => { disposed = true; cancelAnimationFrame(frame); ctx?.revert();
   .hero-description{max-width:330px;font-size:11px;line-height:1.9;margin-top:20px}
   .hero-actions{align-items:flex-start;gap:17px;flex-direction:column;margin-top:23px}.hero-text-link{font-size:8px;gap:24px}
   .hero-marginalia{display:none}.hero-bottom{bottom:22px;align-items:flex-end}.hero-bottom p{max-width:108px;line-height:1.8;font-size:6px;text-align:right}.hero-bottom p span{display:none}.hero-index{display:none}.scroll-invitation{font-size:7px;letter-spacing:.12em;gap:9px}.scroll-line{width:20px}
-  .hero-orbit-fallback{width:150vw;height:85svh;right:-40vw;top:-8svh}.hero-canvas{opacity:.5}
-  .hero-outro>p:not(.eyebrow){font-size:clamp(54px,12vw,84px)}.hero-outro{gap:28px;padding:24px}
+  .hero-orbit-fallback,.hero-canvas,.hero-outro,.hero-progress{display:none}
 }
 @media(max-width:767px) and (min-height:850px){.hero-content{padding-top:43svh}.hero-sticky{min-height:850px}}
 @media(prefers-reduced-motion:reduce){.hero-scroll{height:auto}.hero-sticky{position:relative}.hero-outro{display:none}.hero-canvas{opacity:.55}}
