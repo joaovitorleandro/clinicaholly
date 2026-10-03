@@ -101,7 +101,7 @@ test('mobile navigation traps focus, closes with Escape and reaches the selected
 test('specialties can be expanded and collapsed entirely by keyboard', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await openLanding(page)
-  const button = page.getByRole('button', { name: 'Explorar Harmonização facial' })
+  const button = page.getByRole('button', { name: 'Explorar Estética facial' })
   await button.scrollIntoViewIfNeeded()
   await button.focus()
   await page.keyboard.press('Enter')
@@ -122,7 +122,7 @@ test.describe('touch interaction', () => {
 
   test('specialties expose details and appointment links without hover', async ({ page }) => {
     await openLanding(page)
-    const button = page.getByRole('button', { name: 'Explorar Odontologia integrada' })
+    const button = page.getByRole('button', { name: 'Explorar Implantes' })
     await button.scrollIntoViewIfNeeded()
     await button.tap()
     await expect(button).toHaveAttribute('aria-expanded', 'true')
@@ -209,4 +209,22 @@ test('WebGL failure retains photography, the Holly ornament and appointment acce
   expect(await page.locator('.hero-orbit-fallback').evaluate((element) => Number(getComputedStyle(element).opacity))).toBeGreaterThan(0.3)
   expect(await page.locator('#inicio img').evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true)
   await page.screenshot({ path: '/tmp/holly-qa-webgl-fallback.png' })
+})
+
+test('Instagram bio page exposes the three requested links and the full service menu', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/links.html', { waitUntil: 'networkidle' })
+  const links = page.getByRole('navigation', { name: 'Links da Clínica Holly' }).getByRole('link')
+  await expect(links).toHaveCount(3)
+  await expect(links.nth(0)).toHaveAttribute('href', /^https:\/\/api\.whatsapp\.com\/message\/TQJMTUTY2JP3A1/)
+  await expect(links.nth(1)).toHaveAttribute('href', 'https://drive.google.com/file/d/1dOV_rVDWQvDhxqIDq2lyisMGUNz6XOjv/view')
+  await expect(links.nth(2)).toHaveAttribute('href', '/')
+  for (const link of [links.nth(0), links.nth(1)]) await expect(link).toHaveAttribute('rel', /noopener/)
+  await expect(page.locator('details.bio-service')).toHaveCount(5)
+  const implants = page.locator('details.bio-service', { has: page.locator('summary', { hasText: 'Implantes' }) })
+  await implants.locator('summary').click()
+  await expect(implants.getByText('Protocolo', { exact: true })).toBeVisible()
+  await page.mouse.wheel(0, 1600)
+  await expect(page.locator('.bio-floating')).toHaveClass(/is-visible/)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(390)
 })

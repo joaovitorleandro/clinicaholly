@@ -14,9 +14,9 @@ import type { BufferGeometry } from 'three'
 
 const SIGNATURE = {
   champagne: '#d8bd82',
-  bronze: '#9e6a29',
-  ivory: '#f3efe5',
   arcRadius: 0.019,
+  arc: { width: 1.55, height: 3, apex: 0.5 },
+  starScale: 1.9,
   orbitRadius: 0.006,
   segments: 96,
 } as const
@@ -53,18 +53,22 @@ function createStarGeometry(): ExtrudeGeometry {
   return geometry
 }
 
-function createArc(side: -1 | 1, depth: number): TubeGeometry {
-  const points = [
-    new Vector3(side * 0.22, 3.05, depth - 0.4),
-    new Vector3(side * 1.07, 2.2, depth - 0.06),
-    new Vector3(side * 1.48, 1.15, depth + 0.15),
-    new Vector3(side * 1.62, 0, depth + 0.24),
-    new Vector3(side * 1.45, -1.25, depth + 0.12),
-    new Vector3(side * 0.98, -2.25, depth - 0.08),
-    new Vector3(side * 0.12, -3.0, depth - 0.45),
-  ]
+/**
+ * One side of the Holly mark — `)` or `(` — as a true circular arc, so the curve
+ * stays perfectly round. Endpoints sit at (±width, ±height); the apex bows inward to ±apex.
+ */
+function createArc(side: -1 | 1): TubeGeometry {
+  const { width, height, apex } = SIGNATURE.arc
+  const centerX = (width * width + height * height - apex * apex) / (2 * (width - apex))
+  const radius = centerX - apex
+  const sweep = Math.atan2(height, centerX - width)
+  const points: Vector3[] = []
+  for (let index = 0; index <= SIGNATURE.segments; index += 1) {
+    const angle = Math.PI + MathUtils.lerp(-sweep, sweep, index / SIGNATURE.segments)
+    points.push(new Vector3(side * (centerX + Math.cos(angle) * radius), Math.sin(angle) * radius, 0))
+  }
   const curve = new CatmullRomCurve3(points, false, 'centripetal')
-  return new TubeGeometry(curve, SIGNATURE.segments, SIGNATURE.arcRadius, 8, false)
+  return new TubeGeometry(curve, SIGNATURE.segments * 2, SIGNATURE.arcRadius, 12, false)
 }
 
 function orbitPoint(angle: number): Vector3 {
@@ -105,12 +109,6 @@ export function createHollySignatureObject(): HollySignatureObject {
     clearcoatRoughness: 0.36,
     envMapIntensity: 0.85,
   })
-  const bronzeMaterial = new MeshPhysicalMaterial({
-    color: new Color(SIGNATURE.bronze),
-    metalness: 0.92,
-    roughness: 0.38,
-    envMapIntensity: 0.8,
-  })
   const orbitMaterial = new MeshPhysicalMaterial({
     color: new Color(SIGNATURE.champagne),
     metalness: 0.88,
@@ -120,28 +118,22 @@ export function createHollySignatureObject(): HollySignatureObject {
     depthWrite: false,
     envMapIntensity: 0.72,
   })
-  const starMaterial = new MeshPhysicalMaterial({
-    color: new Color(SIGNATURE.ivory),
-    metalness: 0.96,
-    roughness: 0.21,
-    envMapIntensity: 1.15,
-  })
-
-  const frontGeometry = createArc(1, 0.15)
-  const backGeometry = createArc(-1, -0.3)
+  const frontGeometry = createArc(1)
+  const backGeometry = createArc(-1)
   const orbitGeometry = createOrbit()
   const starGeometry = createStarGeometry()
   geometries.push(frontGeometry, backGeometry, orbitGeometry, starGeometry)
 
   const frontArc = new Mesh(frontGeometry, arcMaterial)
-  const backArc = new Mesh(backGeometry, bronzeMaterial)
-  backArc.rotation.z = -0.08
-  backArc.scale.setScalar(0.96)
+  const backArc = new Mesh(backGeometry, arcMaterial)
   arcs.add(frontArc, backArc)
 
   const orbitMesh = new Mesh(orbitGeometry, orbitMaterial)
-  const star = new Mesh(starGeometry, starMaterial)
-  orbit.add(orbitMesh, star)
+  const star = new Mesh(starGeometry, arcMaterial)
+  star.scale.setScalar(SIGNATURE.starScale)
+  // As in the logo, the star sits between the two arcs: )★(
+  arcs.add(star)
+  orbit.add(orbitMesh)
   orbit.rotation.set(0.25, -0.47, -0.23)
   group.add(arcs, orbit)
 
@@ -152,18 +144,16 @@ export function createHollySignatureObject(): HollySignatureObject {
     const motion = reducedMotion ? 0 : MathUtils.clamp(progress, 0, 1)
     const breath = reducedMotion ? 0 : Math.sin(elapsed * 0.19) * 0.012
 
-    arcs.rotation.y = -0.18 + motion * 0.37
-    arcs.rotation.z = -0.13 - motion * 0.13 + breath
-    frontArc.rotation.y = motion * 0.14
-    backArc.rotation.y = -motion * 0.19
+    arcs.rotation.y = motion * 0.3
+    arcs.rotation.z = breath
+    frontArc.rotation.y = motion * 0.16
+    backArc.rotation.y = -motion * 0.16
     orbit.rotation.x = 0.25 + motion * 0.2
     orbit.rotation.y = -0.47 + motion * 0.25
     orbit.rotation.z = -0.23 + motion * 0.14
 
-    const starAngle = MathUtils.lerp(Math.PI * 0.2, -Math.PI * 0.35, motion)
-    star.position.copy(orbitPoint(starAngle))
-    star.position.z += 0.03
-    star.rotation.set(0.1, 0.15 + motion * 0.8, -motion * 0.45)
+    star.position.set(0, 0, 0.05)
+    star.rotation.set(0, motion * 0.8, -motion * 0.45)
     orbitMaterial.opacity = MathUtils.lerp(0.57, 0.32, motion)
   }
 
@@ -176,7 +166,7 @@ export function createHollySignatureObject(): HollySignatureObject {
       if (disposed) return
       disposed = true
       geometries.forEach((geometry) => geometry.dispose())
-      ;[arcMaterial, bronzeMaterial, orbitMaterial, starMaterial].forEach((material) => material.dispose())
+      ;[arcMaterial, orbitMaterial].forEach((material) => material.dispose())
       group.clear()
     },
   }

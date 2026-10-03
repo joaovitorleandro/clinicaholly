@@ -6,29 +6,30 @@ import ArrowIcon from '../components/ui/ArrowIcon.vue'
 import RevealText from '../components/motion/RevealText.vue'
 import RevealBlock from '../components/motion/RevealBlock.vue'
 import HollyStar from '../components/ui/HollyStar.vue'
+import { serviceCategories } from '../data/services'
 
 const active = ref(0)
 const selected = ref<number | null>(0)
 const treatments = [
-  { title: 'Facetas & lentes', lines: ['Facetas &', 'lentes'], description: 'Detalhe, naturalidade e um sorriso que conversa com você.', image: '/images/smile-close.webp', alt: 'Detalhe de sorriso do acervo da Clínica Holly', position: '49% 50%' },
-  { title: 'Harmonização facial', lines: ['Harmonização', 'facial'], description: 'Equilíbrio e leveza para valorizar sua expressão.', image: '/images/lips-profile.webp', alt: 'Perfil com foco nos lábios e na harmonia da expressão', position: '52% 48%' },
-  { title: 'Odontologia integrada', lines: ['Odontologia', 'integrada'], description: 'Saúde, função e beleza no mesmo cuidado.', image: '/images/smile-man.webp', alt: 'Sorriso masculino do acervo da Clínica Holly', position: '50% 47%' },
+  { title: 'Lentes & facetas', lines: ['Lentes &', 'facetas'], description: 'Detalhe, naturalidade e um sorriso que conversa com você.', image: '/images/smile-close.webp', alt: 'Detalhe de sorriso do acervo da Clínica Holly', position: '49% 50%' },
+  { title: 'Estética facial', lines: ['Estética', 'facial'], description: 'Equilíbrio e leveza para valorizar sua expressão.', image: '/images/lips-profile.webp', alt: 'Perfil com foco nos lábios e na harmonia da expressão', position: '52% 48%' },
+  { title: 'Implantes', lines: ['Implantes'], description: 'Função, segurança e estética para voltar a sorrir com confiança.', image: '/images/smile-man.webp', alt: 'Sorriso masculino do acervo da Clínica Holly', position: '50% 47%' },
 ]
 const treatmentDetails = [
   { title: 'Seu sorriso, do seu jeito.', description: 'Durante a avaliação, conversamos sobre resultado, rotina e possibilidades para indicar a técnica que faz sentido para você.', options: [
-    { title: 'Resina basic', description: 'Superfície mais lisa, ideal para quem busca linhas retas e uma cor mais evidente.' },
-    { title: 'Resina premium', description: 'Mais detalhe e resistência, reproduzindo com precisão a forma dos dentes.' },
-    { title: 'Resina estratificada & porcelana', description: 'Alternativas para quem valoriza translucidez, naturalidade e durabilidade.' },
+    { title: 'Básica & estratificada', description: 'Facetas em resina, da forma mais simples à construída em camadas, com mais profundidade e naturalidade.' },
+    { title: 'Híbrida & porcelana pura', description: 'Alternativas para quem valoriza translucidez, resistência e durabilidade.' },
+    { title: 'Manutenção & recapeamento', description: 'Cuidado contínuo das suas lentes, com ou sem quebra, e renovação da superfície.' },
   ] },
   { title: 'Harmonia que respeita você.', description: 'Procedimentos planejados para equilibrar proporções e manter o que faz seu rosto ser unicamente seu.', options: [
-    { title: 'Preenchimento', description: 'Ácido hialurônico para regiões como lábios, nariz, olheiras, queixo e mandíbula, conforme avaliação.' },
-    { title: 'Botox & bioestimulador', description: 'Tratamentos voltados a suavizar, prevenir e estimular com leveza.' },
-    { title: 'Contorno facial', description: 'Fios de PDO, enzima facial, lipo de papada e outras indicações personalizadas.' },
+    { title: 'Preenchimentos', description: 'Labial, mandibular e de mento, além de rinomodelação, conforme avaliação.' },
+    { title: 'Botox & bioestimulador', description: 'Botox full face e bioestimulador para suavizar, prevenir e estimular com leveza.' },
+    { title: 'Contorno & sustentação', description: 'Fios de PDO lisos e espiculados, minilift, lipo de papada e bichectomia.' },
   ] },
-  { title: 'Saúde é a base de toda beleza.', description: 'O sorriso mais bonito começa em uma boca saudável. Por isso, a Holly reúne especialidades para um cuidado completo.', options: [
-    { title: 'Implantes', description: 'Planejamento para devolver função e segurança ao seu sorriso.' },
-    { title: 'Endodontia', description: 'Cuidado especializado para preservar a saúde e a estrutura do dente.' },
-    { title: 'Ortodontia & adicionais', description: 'Alinhamento, gengivoplastia, remoção de facetas, fixa adesiva e manutenção.' },
+  { title: 'Volte a sorrir com segurança.', description: 'Planejamento individual para devolver função e estética, com o material indicado para o seu caso.', options: [
+    { title: 'Implante unitário', description: 'Reposição de um dente, com coroa em porcelana, híbrida ou resina.' },
+    { title: 'Protocolo', description: 'Reabilitação da arcada completa, em porcelana, híbrida ou resina.' },
+    { title: 'Avaliação completa', description: 'Análise da sua saúde bucal para indicar a solução mais adequada.' },
   ] },
 ]
 
@@ -72,6 +73,21 @@ function refreshAfterResize(event: TransitionEvent) {
         <div class="treatment-options-intro"><h3>{{ detail.title }}</h3><p>{{ detail.description }}</p></div>
         <dl><div v-for="option in detail.options" :key="option.title"><dt>{{ option.title }}</dt><dd>{{ option.description }}</dd></div></dl>
       </div>
+      <div class="service-menu" aria-labelledby="service-menu-title">
+        <div class="service-menu-head">
+          <h3 id="service-menu-title">Todos os <em>tratamentos.</em></h3>
+          <p>Cada plano começa com uma avaliação. Atendemos também pelos convênios MetLife, SulAmérica e OdontoGroup.</p>
+        </div>
+        <div class="service-menu-grid">
+          <RevealBlock v-for="(category, index) in serviceCategories" :key="category.id" class="service-category" :class="{ 'is-featured': category.featured }">
+            <div class="service-category-top"><span class="service-index">0{{ index + 1 }}</span><span v-if="category.featured" class="service-badge"><HollyStar />Destaque</span></div>
+            <h4>{{ category.title }}</h4>
+            <ul><li v-for="item in category.items" :key="item">{{ item }}</li></ul>
+            <p v-if="category.note" class="service-note">{{ category.note }}</p>
+          </RevealBlock>
+        </div>
+        <a class="text-link service-menu-cta" :href="clinic.whatsapp" target="_blank" rel="noopener noreferrer">Agendar minha avaliação <ArrowIcon /></a>
+      </div>
       <div class="specialties-footer"><span class="eyebrow">Estética integrada</span><span class="eyebrow">Clínica Holly <span aria-hidden="true">—</span> desde 2021</span></div>
     </div>
   </section>
@@ -83,6 +99,10 @@ function refreshAfterResize(event: TransitionEvent) {
 .panel-button{position:absolute;inset:0;background:none;border:0;color:var(--ivory);z-index:2;cursor:pointer;text-align:left;padding:35px clamp(20px,2.3vw,40px);display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;width:100%;transition:padding-bottom .7s cubic-bezier(.22,1,.36,1)}.panel-button:focus-visible{outline:2px solid var(--champagne);outline-offset:-7px}.panel-number{position:absolute;top:30px;left:clamp(20px,2.3vw,40px);right:clamp(20px,2.3vw,40px);display:flex;gap:20px;align-items:center;font-size:10px;letter-spacing:.15em}.panel-line{height:1px;background:rgba(243,239,229,.35);flex:1;transform:scaleX(.35);transform-origin:left;transition:transform .7s}.is-active .panel-line{transform:scaleX(1)}.panel-title{font-family:var(--display);font-size:clamp(2.1rem,3.5vw,4.3rem);line-height:1.02;letter-spacing:-.02em;display:flex;flex-direction:column;margin-bottom:28px}.panel-explore{font-size:10px;letter-spacing:.12em;text-transform:uppercase;display:flex;justify-content:space-between;width:100%;align-items:center}.panel-plus{font-size:23px;font-weight:300;line-height:1}
 .is-open .panel-button{padding-bottom:155px}.panel-detail{position:absolute;bottom:32px;left:clamp(20px,2.3vw,40px);right:clamp(20px,2.3vw,40px);z-index:3;opacity:0;transform:translateY(15px);transition:opacity .5s,transform .5s;pointer-events:none}.is-open .panel-detail{opacity:1;transform:translateY(0);pointer-events:auto}.panel-detail p{font-size:12px;line-height:1.7;margin:0 0 18px;max-width:260px;color:#ddd5c7}.treatment-cta{font-size:10px;line-height:1.6;color:var(--champagne);text-decoration:none;padding-bottom:5px;display:inline-flex;gap:20px;border-bottom:1px solid #8c7851}.treatment-cta .arrow-icon{transition:transform .25s}.treatment-cta:hover .arrow-icon{transform:translate(3px,-3px)}.treatment-cta:active{opacity:.75}.specialties-footer{display:flex;align-items:center;justify-content:space-between;margin-top:24px;color:#aba396}.specialties-footer .eyebrow{font-size:8px}
 .treatment-options{display:grid;grid-template-columns:1fr 1.6fr;gap:70px;padding:46px 0 34px;border-bottom:1px solid #383329}.treatment-options-intro h3{font:400 clamp(1.85rem,2.5vw,3rem)/1.13 var(--display);color:var(--champagne);margin:0 0 17px;max-width:320px}.treatment-options-intro p{font-size:11px;line-height:1.9;max-width:320px;color:#b5ac9d}.treatment-options dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:29px;margin:0}.treatment-options dt{font:400 23px/1.15 var(--display);margin:0 0 16px}.treatment-options dd{font-size:10px;line-height:1.9;color:#b5ac9d;margin:0}
+.service-menu{margin-top:clamp(80px,8vw,130px)}.service-menu-head{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;padding-bottom:30px;border-bottom:1px solid #383329}.service-menu-head h3{font:400 clamp(2.6rem,4.4vw,5.2rem)/1 var(--display);letter-spacing:-.03em;margin:0}.service-menu-head h3 em{color:var(--champagne)}.service-menu-head p{justify-self:end;max-width:340px;font-size:12px;line-height:1.9;color:#b5ac9d}
+.service-menu-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}.service-category{padding:30px clamp(14px,1.6vw,28px) 36px;border-right:1px solid #2a2620;min-width:0}.service-category:first-child{padding-left:0}.service-category:last-child{border-right:0;padding-right:0}.service-category-top{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:22px;margin-bottom:22px}.service-index{font-size:10px;letter-spacing:.15em;color:#8f8676}.service-badge{display:inline-flex;align-items:center;gap:7px;font-size:8px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--champagne)}.service-badge :deep(svg){width:11px;height:11px}.service-category h4{font:400 clamp(1.5rem,1.9vw,2.15rem)/1.08 var(--display);margin:0 0 20px;color:var(--ivory)}.is-featured h4{color:var(--champagne)}.service-category ul{list-style:none;margin:0;padding:0}.service-category li{position:relative;font-size:11px;line-height:1.55;color:#d0c8ba;padding:8px 0 8px 15px;border-top:1px solid #221f1a}.service-category li::before{content:'';position:absolute;left:0;top:15px;width:5px;height:1px;background:var(--bronze)}.service-note{margin-top:14px;font-size:10px;line-height:1.7;color:#9b9284;font-style:italic}.service-menu-cta{margin-top:26px;color:var(--champagne);font-size:10px}
+@media(max-width:1023px){.service-menu-head{grid-template-columns:1fr;gap:20px}.service-menu-head p{justify-self:start}.service-menu-grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:32px}.service-category,.service-category:first-child,.service-category:last-child{padding:28px 0 24px;border-right:0;border-bottom:1px solid #2a2620}}
+@media(max-width:767px){.service-menu-head h3{font-size:clamp(2.6rem,10vw,3.6rem)}.service-menu-head p{font-size:12px}.service-menu-grid{display:block}.service-category li{font-size:12px}}
 @media(max-width:1023px){.specialties-heading{grid-template-columns:1fr 1.4fr}.specialties-heading h2{font-size:3.5rem}.section-number{display:none}.specialties-panels{gap:7px;height:560px;min-height:560px}.panel-title{font-size:clamp(1.85rem,3.7vw,2.45rem)}.panel-button{padding-right:19px;padding-left:19px}.panel-number{left:19px;right:19px}.panel-detail{left:19px;right:19px}.panel-detail p{font-size:11px}.is-open .panel-button{padding-bottom:165px}.treatment-options{gap:35px;grid-template-columns:1fr 1.7fr}.treatment-options dl{gap:20px}.treatment-options dt{font-size:20px}}
 @media(max-width:767px){.specialties-heading{display:block;margin-bottom:38px}.specialties-heading .section-label{margin:0 0 34px}.specialties-heading h2{font-size:clamp(3.3rem,11.5vw,5rem)}.specialties-panels{display:flex;flex-direction:column;height:auto;min-height:0;gap:12px}.specialty-panel,.specialty-panel.is-active{flex:auto;height:240px;transition:height .7s cubic-bezier(.22,1,.36,1)}.specialty-panel.is-open{height:480px}.panel-photo{object-position:50% 40%!important}.panel-shade{background:linear-gradient(180deg,rgba(8,8,7,.2),rgba(8,8,7,.12) 20%,rgba(8,8,7,.9) 100%)}.panel-button{padding:25px}.panel-number{top:23px;left:25px;right:25px}.panel-title{font-size:2.9rem;margin-bottom:17px}.panel-title{flex-direction:row;flex-wrap:wrap;gap:0 8px;max-width:95%}.panel-detail{left:25px;right:25px;bottom:29px}.panel-detail p{font-size:13px;max-width:285px}.is-open .panel-button{padding-bottom:154px}.specialties-footer .eyebrow{font-size:7px;letter-spacing:.12em}.panel-line{transform:scaleX(1)}}
 @media(prefers-reduced-motion:reduce){.specialty-panel,.panel-photo,.panel-button,.panel-line,.panel-detail{transition:none}.panel-photo,.is-active .panel-photo{transform:none}}

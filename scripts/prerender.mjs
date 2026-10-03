@@ -38,7 +38,7 @@ const server = await createServer({
 })
 
 try {
-  const { render, clinic } = await server.ssrLoadModule('/src/entry-server.ts')
+  const { render, renderLinks, clinic } = await server.ssrLoadModule('/src/entry-server.ts')
   const content = await render()
   if (!content.includes('<h1') || !content.includes('Seu sorriso.') || !content.includes('Estrada de Santa Isabel')) {
     throw new Error('O prerender não produziu o conteúdo institucional esperado.')
@@ -75,7 +75,20 @@ try {
 
   html = html.replace('</head>', `    ${metadata.join('\n    ')}\n  </head>`)
   await writeFile(outputPath, html, 'utf8')
-  process.stdout.write(`Prerender: conteúdo HTML completo e JSON-LD gerados${siteUrl ? '; canonical e imagens sociais absolutos configurados' : '; domínio definitivo não configurado'}.\n`)
+
+  const linksPath = resolve(root, 'dist/links.html')
+  let linksHtml = await readFile(linksPath, 'utf8')
+  if (!linksHtml.includes(mountPoint)) throw new Error('O prerender requer um dist/links.html novo. Execute npm run build.')
+  const linksContent = await renderLinks()
+  if (!linksContent.includes('Agendar avaliação') || !linksContent.includes('Todos os')) {
+    throw new Error('O prerender da página de links não produziu o conteúdo esperado.')
+  }
+  linksHtml = linksHtml.replace(mountPoint, () => `<div id="app">${linksContent}</div>`)
+  if (siteUrl) {
+    linksHtml = linksHtml.replace(/(<meta property="og:image" content=")([^"\s]+)("\s*\/?>)/g, (_match, before, imagePath, after) => `${before}${new URL(imagePath, siteUrl).href}${after}`)
+  }
+  await writeFile(linksPath, linksHtml, 'utf8')
+  process.stdout.write(`Prerender: home e /links com HTML completo e JSON-LD gerados${siteUrl ? '; canonical e imagens sociais absolutos configurados' : '; domínio definitivo não configurado'}.\n`)
 } finally {
   await server.close()
 }

@@ -17,19 +17,37 @@ const sourceMap = {
   'doctor-portrait': 'ChatGPT Image 10 de set. de 2026, 22_03_14 (1).png',
   'doctor-editorial': 'ChatGPT Image 10 de set. de 2026, 22_03_14 (3).png',
 }
+// Real photographs of the Arujá unit. The JPEG sources were converted from the
+// original iPhone HEIC files (imagens-estabelecimento/) with metadata stripped:
+//   convert IMG_xxxx.HEIC -auto-orient -strip -resize '2560x>' -quality 92 name.jpg
+// They receive a light warm grade so they sit on the ivory/bronze palette.
+const establishmentMap = {
+  'space-reception': 'recepcao.jpg',
+  'space-corridor': 'corredor.jpg',
+  'space-planning': 'sala-planejamento.jpg',
+  'space-room-view': 'consultorio-vista.jpg',
+  'space-room-brand': 'consultorio-holly.jpg',
+  'space-room-clinical': 'consultorio-clinico.jpg',
+}
+const establishmentWidth = 1920
 const output = resolve('public/images')
 await mkdir(output, { recursive: true })
 let sourceBytes = 0
 let optimizedBytes = 0
-for (const [name, filename] of Object.entries(sourceMap)) {
-  const source = resolve('assets/imagens', filename)
+const jobs = [
+  ...Object.entries(sourceMap).map(([name, filename]) => ({ name, source: resolve('assets/imagens', filename), maxWidth: null, grade: false })),
+  ...Object.entries(establishmentMap).map(([name, filename]) => ({ name, source: resolve('assets/imagens/estabelecimento', filename), maxWidth: establishmentWidth, grade: true })),
+]
+for (const { name, source, maxWidth, grade } of jobs) {
   sourceBytes += (await stat(source)).size
   for (const size of [640, 960, null]) {
     const destination = resolve(output, `${name}${size ? `-${size}` : ''}.webp`)
     const pipeline = sharp(source).rotate()
-    if (size) pipeline.resize({ width: size, withoutEnlargement: true })
+    const width = size ?? maxWidth
+    if (width) pipeline.resize({ width, withoutEnlargement: true })
+    if (grade) pipeline.recomb([[1.04, 0.02, 0], [0, 1, 0], [0, 0, 0.93]]).modulate({ saturation: 0.92 })
     await pipeline.webp({ quality: 87, effort: 5 }).toFile(destination)
     if (!size) optimizedBytes += (await stat(destination)).size
   }
 }
-process.stdout.write(`Prepared ${Object.keys(sourceMap).length} approved images × 3 sizes. Original: ${(sourceBytes / 1048576).toFixed(1)} MB; full-size WebP: ${(optimizedBytes / 1048576).toFixed(1)} MB.\n`)
+process.stdout.write(`Prepared ${jobs.length} approved images × 3 sizes. Original: ${(sourceBytes / 1048576).toFixed(1)} MB; full-size WebP: ${(optimizedBytes / 1048576).toFixed(1)} MB.\n`)
