@@ -30,6 +30,11 @@ const establishmentMap = {
   'space-room-clinical': 'consultorio-clinico.jpg',
 }
 const establishmentWidth = 1920
+// Before/after pairs published on @clinicaholly (patient consent confirmed by the clinic).
+// Sources were aligned beforehand (same scale, angle and framing, 4:3 crop); colours stay
+// untouched so the comparison remains honest.
+const beforeAfterCases = ['porcelana-pura', 'resina', 'protocolo', 'harmonizacao']
+const beforeAfterWidths = [540, 1080]
 const output = resolve('public/images')
 await mkdir(output, { recursive: true })
 let sourceBytes = 0
@@ -50,4 +55,15 @@ for (const { name, source, maxWidth, grade } of jobs) {
     if (!size) optimizedBytes += (await stat(destination)).size
   }
 }
-process.stdout.write(`Prepared ${jobs.length} approved images × 3 sizes. Original: ${(sourceBytes / 1048576).toFixed(1)} MB; full-size WebP: ${(optimizedBytes / 1048576).toFixed(1)} MB.\n`)
+for (const name of beforeAfterCases) {
+  for (const side of ['antes', 'depois']) {
+    const source = resolve('assets/imagens/antes-depois', `${name}-${side}.jpg`)
+    sourceBytes += (await stat(source)).size
+    for (const width of beforeAfterWidths) {
+      const destination = resolve(output, `ba-${name}-${side}-${width}.webp`)
+      await sharp(source).resize({ width }).webp({ quality: 86, effort: 5 }).toFile(destination)
+      if (width === 1080) optimizedBytes += (await stat(destination)).size
+    }
+  }
+}
+process.stdout.write(`Prepared ${jobs.length} approved images × 3 sizes and ${beforeAfterCases.length} before/after pairs. Original: ${(sourceBytes / 1048576).toFixed(1)} MB; full-size WebP: ${(optimizedBytes / 1048576).toFixed(1)} MB.\n`)

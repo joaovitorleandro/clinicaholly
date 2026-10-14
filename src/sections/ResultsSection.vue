@@ -51,7 +51,7 @@ onBeforeUnmount(() => {
 <template>
   <section id="resultados" class="results" aria-labelledby="results-title">
     <div class="container">
-      <div class="results-eyebrow section-label"><HollyStar /><p class="eyebrow">Resultados que falam por si</p><span class="section-number">04 / 08</span></div>
+      <div class="results-eyebrow section-label"><HollyStar /><p class="eyebrow">Resultados que falam por si</p><span class="section-number">04 / 09</span></div>
       <div class="results-heading">
         <RevealText id="results-title">A delicadeza está<br>nos <em>detalhes.</em></RevealText>
         <RevealBlock class="results-intro"><p>Uma seleção de trabalhos publicados pela Clínica Holly. Cada caso é único e planejado individualmente.</p><span class="eyebrow">Naturalidade. Individualidade.</span></RevealBlock>

@@ -17,7 +17,7 @@ const rooms = [
 <template>
   <section id="clinica" class="clinic" aria-labelledby="clinic-title">
     <div class="container">
-      <div class="clinic-label section-label"><HollyStar /><p class="eyebrow">Clínica Holly • Arujá, SP</p><span class="section-number">07 / 08</span></div>
+      <div class="clinic-label section-label"><HollyStar /><p class="eyebrow">Clínica Holly • Arujá, SP</p><span class="section-number">08 / 09</span></div>
       <div class="clinic-heading">
         <RevealText id="clinic-title">Um espaço pensado<br>para o seu <em>momento.</em></RevealText>
         <RevealBlock class="clinic-address"><address>Estrada de Santa Isabel, 965 — Sala 27<br>Bairro Caputerá, Arujá — SP</address><a class="text-link" :href="clinic.maps" target="_blank" rel="noopener noreferrer">Abrir localização <ArrowIcon /></a></RevealBlock>

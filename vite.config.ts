@@ -10,7 +10,7 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       // links.html is the Instagram bio page, served at /links (cleanUrls in vercel.json).
-      input: { main: resolve(__dirname, 'index.html'), links: resolve(__dirname, 'links.html') },
+      input: { main: resolve(import.meta.dirname, 'index.html'), links: resolve(import.meta.dirname, 'links.html') },
       output: {
         manualChunks(id) {
           if (id.includes('node_modules/three/')) return 'three'

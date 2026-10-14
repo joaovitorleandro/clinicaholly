@@ -10,7 +10,7 @@ import HollyStar from '../components/ui/HollyStar.vue'
 <template>
   <section id="doutor" class="doctor" aria-labelledby="doctor-title">
     <div class="container doctor-grid">
-      <div class="doctor-label section-label"><HollyStar /><p class="eyebrow">Dr. Guilherme Lucena</p><span class="section-number">06 / 08</span></div>
+      <div class="doctor-label section-label"><HollyStar /><p class="eyebrow">Dr. Guilherme Lucena</p><span class="section-number">07 / 09</span></div>
       <RevealBlock class="doctor-portrait">
         <ParallaxImage src="/images/doctor-editorial.webp" alt="Dr. Guilherme Lucena, fundador da Clínica Holly, sentado na clínica" :width="1122" :height="1402" position="50% 30%" :speed="3" :scale="1.06" sizes="(max-width: 767px) 89vw, 48vw" />
         <span class="portrait-caption eyebrow">Dr. Guilherme Lucena</span>

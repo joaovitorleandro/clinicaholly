@@ -9,7 +9,7 @@ import HollyStar from '../components/ui/HollyStar.vue'
 <template>
   <section id="experiencia" class="experience" aria-labelledby="experience-title">
     <div class="container experience-grid">
-      <div class="experience-label section-label"><HollyStar /><p class="eyebrow">A experiência Holly</p><span class="section-number">02 / 08</span></div>
+      <div class="experience-label section-label"><HollyStar /><p class="eyebrow">A experiência Holly</p><span class="section-number">02 / 09</span></div>
       <RevealBlock class="experience-photo">
         <ParallaxImage src="/images/beauty-portrait.webp" alt="Retrato de beleza da Clínica Holly, com foco na naturalidade da expressão" :width="1122" :height="1402" position="50% 38%" :speed="4" :scale="1.08" sizes="(max-width: 767px) 86vw, 38vw" />
         <span class="photo-note eyebrow">Estética integrada</span>

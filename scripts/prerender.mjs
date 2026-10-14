@@ -57,6 +57,8 @@ try {
       addressRegion: 'SP',
       addressCountry: 'BR',
     },
+    geo: { '@type': 'GeoCoordinates', ...clinic.coordinates },
+    hasMap: clinic.maps,
     founder: { '@type': 'Person', name: 'Guilherme Lucena' },
     sameAs: [clinic.instagram],
     ...(siteUrl ? { url: siteUrl } : {}),

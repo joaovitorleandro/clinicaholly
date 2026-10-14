@@ -5,6 +5,7 @@ import HeroSection from './sections/HeroSection.vue'
 import ExperienceSection from './sections/ExperienceSection.vue'
 import SpecialtiesSection from './sections/SpecialtiesSection.vue'
 import ResultsSection from './sections/ResultsSection.vue'
+import BeforeAfterSection from './sections/BeforeAfterSection.vue'
 import JourneySection from './sections/JourneySection.vue'
 import DoctorSection from './sections/DoctorSection.vue'
 import ClinicSection from './sections/ClinicSection.vue'
@@ -22,6 +23,7 @@ useLenis()
     <ExperienceSection />
     <SpecialtiesSection />
     <ResultsSection />
+    <BeforeAfterSection />
     <JourneySection />
     <DoctorSection />
     <ClinicSection />

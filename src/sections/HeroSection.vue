@@ -87,7 +87,7 @@ onUnmounted(() => { disposed = true; cancelAnimationFrame(frame); ctx?.revert();
       <div class="hero-bottom container">
         <a class="scroll-invitation" href="#experiencia"><span class="scroll-line" aria-hidden="true"></span><span>Uma experiência Holly</span><ArrowIcon direction="down" class="scroll-arrow" /></a>
         <p>Atendimento em SP e RJ <span>·</span> Desde 2021</p>
-        <span class="hero-index" aria-hidden="true">01 <span>/</span> 08</span>
+        <span class="hero-index" aria-hidden="true">01 <span>/</span> 09</span>
       </div>
       <div class="hero-outro" aria-hidden="true"><p class="eyebrow">A experiência Holly</p><p>Estética que começa<br><em>com escuta.</em></p><HollyStar class="hero-transition-star" /></div>
       <div class="hero-progress" aria-hidden="true"><span></span></div>

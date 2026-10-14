@@ -52,7 +52,7 @@ function refreshAfterResize(event: TransitionEvent) {
       <div class="specialties-heading">
         <div class="section-label"><HollyStar /><p class="eyebrow">Especialidades</p></div>
         <RevealText id="specialties-title">Escolha por onde<br>quer <em>começar.</em></RevealText>
-        <span class="section-number">03 / 08</span>
+        <span class="section-number">03 / 09</span>
       </div>
       <RevealBlock class="specialties-panels">
         <article v-for="(treatment, index) in treatments" :key="treatment.title" class="specialty-panel" :class="{ 'is-active': active === index, 'is-open': selected === index }" @pointerenter="active = index" @transitionend="refreshAfterResize">
